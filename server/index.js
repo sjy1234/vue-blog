@@ -5,7 +5,9 @@ import router from './routes/index'
 // 数据库连接文件
 import query from './utils/query'
 const app = new koa();
-app.use(cors()).use(bodyparser()).use(router.routes())
+app.use(cors())
+    .use(bodyparser())
+    .use(router.routes())
 app.listen(3000, () => {
     console.log('go')
 })
