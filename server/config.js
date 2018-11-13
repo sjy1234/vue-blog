@@ -10,6 +10,6 @@ export const dbName = {
     // 我们要连接数据库的名称
     database:'sjy_blog'
 }
-export const base_Api = 'api/'
+export const base_API = '/api'
 
 export const secret = 'sjy_blog'

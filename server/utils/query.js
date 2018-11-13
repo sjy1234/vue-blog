@@ -4,7 +4,6 @@ import mysql from 'mysql';
 import { db, dbName } from '../config';
 import fs from 'fs';
 import path from 'path';
-let pool
 // import { endianness } from 'os';
 // const sqlContent = fs.readFileSync(path)
 const sqlContent = fs.readFileSync(path.resolve(__dirname, '..', './sql/sjy_blog.sql'), 'utf8');
@@ -12,18 +11,18 @@ const sqlContent = fs.readFileSync(path.resolve(__dirname, '..', './sql/sjy_blog
 // 数据库文件执行，执行完毕之后sjy-blog数据库就有对应的表和数据了
 const init = mysql.createConnection(db)
 init.connect();
-
+let pool
 init.query('CREATE DATABASE sjy_blog', err => {
     Object.assign(db, dbName)
     // 第二次连接数据库，这时候sjy_blog已经创建成功，这时候，直接连接sjy_blog数据库
     // 然后执行sql文件夹下的sjy_blog文件，对应的表和测试数据就已经数据库里面了
     pool = mysql.createPool(db);
     if (err) {
-        console.log('失败了')
+        console.log('数据库已存在')
     } else {
         // 将sjy_blog文件执行
         query(sqlContent).then(res => {
-            console.log('success')
+            console.log('数据库创建成功')
         }).catch(err=>{
             console.log(err)
         })
