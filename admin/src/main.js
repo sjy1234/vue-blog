@@ -14,6 +14,7 @@ import '@/assets/style'
 import VeeValidate from 'vee-validate'
 // 我们在这里引入一个消息提示的插件，用来对用户进行合法性验证
 import Notifications from 'vue-notification'
+import '@/permission'
 Vue.use(VeeValidate)
 Vue.use(Notifications)
 Vue.config.productionTip = false

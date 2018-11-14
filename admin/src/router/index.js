@@ -8,7 +8,7 @@ import Login from '@/components/Login'
 import List from '@/components/List'
 export default new Router({
   routes: [
-    {
+    { 
       path:'/login',component:Login
     },
     {

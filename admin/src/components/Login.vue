@@ -5,7 +5,7 @@
             <img class="logo" src="../assets/image/logo.png" alt="营火">
         </header>
         <section class="form">
-            <span class="slogan">登登登登...录!
+            <span class="slogan">请登录
                 <span>/ Login</span>
             </span>
             <input type="text" name="user" v-validate="'required'" id="user" placeholder="请输入用户名" v-model="LoginForm.user">
@@ -15,12 +15,15 @@
         <footer>Always.</footer>
         <span>{{ errors.first('password')}}</span>
         <notifications group="user"></notifications>
+        <notifications group="admin"></notifications>
     </div>
 </template>
 
 <script>
 // 设置验证的提示消息
 import { Validator } from 'vee-validate'
+// 引入设置token的方法
+import { setToken } from '@/utils/auth'
 const dict = {
   custom: {
     user: {
@@ -55,7 +58,23 @@ export default {
           data:this.LoginForm
         }).then(res=>{
           console.log(res)
+          if (res.success) {
+            // 验证成功 跳转list页面
+            let token = res.token;
+            setToken(token);
+            this.$store.commit('SET_TOKEN',token)
+            this.$router.push('/list')
 
+          } else {
+            this.$notify({
+              type:'warn',
+              group:'user',
+              title:'失败',
+              text:res.message
+            })
+            // 清空输入框
+            this.LoginForm = {}
+          }
           // 如果用户名、密码不正确的话，要给出提示
           // 正确后，要先得到token值，将token存到cookie
           // 跳转到博客系统的首页
@@ -68,6 +87,7 @@ export default {
       }else {
         // console.log('验证失败，给出错误提示')
         this.$notify({
+          type:'error',
           group:'user',
           title:'验证失败',
           text:'hello user'
