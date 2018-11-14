@@ -1,6 +1,8 @@
 import axios from 'axios'
 import store from '@/store'
-import { getToken } from '@/utils/auth'
+// import { getToken } from '@/utils/auth'
+import { getToken,removeToken} from '@/utils/auth'
+import Vue from 'vue'
 
 // 创建axios实例
 const service = axios.create({
@@ -12,7 +14,7 @@ const service = axios.create({
 // request拦截器
 service.interceptors.request.use(
   config => {
-    if (store.getters.token) {
+    if (store.state.token) {
       config.headers['X-Token'] = getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
     }
     return config
@@ -28,8 +30,16 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   response =>{
     const res = response.data
-    //这里面可以设置自定义的返回错误
-    return response.data
+    if (res.code === 40001) {
+      // token已过期的验证码
+      alert('token已过期');
+      removeToken()
+      store.commit('SET_TOKEN')
+      location.reload()
+    }else{
+      //这里面可以设置自定义的返回错误
+      return response.data
+    }
   },
   error => {
     console.log('err' + error) // for debug

@@ -25,7 +25,7 @@ class UserController {
         const res = (await User.getUserByName(user))[0]
         if (res) {
             // 如果存在 检查密码是否正确
-            console.log(res)
+            // console.log(res)
             if (res.password === md5(password)) {
                 // 生成token 返回token
                 let token = createToken(res.user)
@@ -46,10 +46,21 @@ class UserController {
                 message:'用户名不错在，请重新填写...'
             }
         }
-        console.log(res)
-
         // 所有对于数据库的操作，我们不在控制器里面完成，我们在数据库直接封装一个方法
 
+    }
+    // 退出功能
+    async logout(ctx) {
+        ctx.body = {
+            success:true,
+            message:'退出成功'
+        }
+    }
+    async articles(ctx) {
+        ctx.body = {
+            success:true,
+            message:'退出成功'
+        }
     }
 }
 
