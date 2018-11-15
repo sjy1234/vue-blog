@@ -2,7 +2,9 @@ import Article from '../model/ArticleModel'
 
 class ArticleController {
     async getArticles(ctx){
-        ctx.body = await Article.getArticles()
+        console.log(1)
+        ctx.body = await Article.getAllArticle()
+        // ctx.body = data
     }
 }
 export default new ArticleController()

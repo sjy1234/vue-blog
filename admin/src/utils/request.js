@@ -42,6 +42,7 @@ service.interceptors.response.use(
     }
   },
   error => {
+    // 服务器报出来所有错误，都会被前段接受到这个位置，这个位置会打印这些错误信息，方便调试
     console.log('err' + error) // for debug
     return Promise.reject(error)
   }

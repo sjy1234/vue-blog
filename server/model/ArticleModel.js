@@ -1,7 +1,7 @@
 import query from '../utils/query'
 
 class ArticleModel {
-    async getAllArticles() {
+    async getAllArticle() {
         return await query ("SELECT * FROM ARTICLE ORDER BY createtime DESC")
     }
 }
