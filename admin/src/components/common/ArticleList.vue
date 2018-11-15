@@ -1,8 +1,7 @@
 <template>
     <ul class="list">
         <!-- :class 动态绑定class类 它支持对象方法，当对象改变时类名也随之改变 -->
-        <li class="article" :class="{ published: isPublished === 1}" v-for="{title, createTime, isPublished, isChosen},index in articleList" @click="select(index)" v-if="isChosen">
-
+        <li class="article" :class="{ active: activeIndex === index, published: isPublished === 1}" v-for="({title, createTime, isPublished, isChosen},index) in articleList" :key="index" @click="select(index)" v-if="isChosen">
             <header>{{ title }}</header>
             <p>{{ createTime }}</p>
         </li>
@@ -17,30 +16,14 @@ export default {
   name: "ArticleList",
   data() {
     return {
-      articleList: []
+      articleList: [],
+      activeIndex : -1
     };
   },
-  methods:{
-    updateList(updated) {
-      request({
-        method: "get",
-        url: `/articles/${updatedId}`
-      })
-        .then(res => {
-          // console.log(res);
-          const article = res[0]
-          article.createTime = moment(article.createTime).format('YYYY年-MM月-DD日 HH-mm-ss')
-          this.articleList.unshift(article)
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    }
-  },
+  
   // 把全局的vuex里面的state和mutations放到计算属性中...
   computed:{
     ...mapState(['id','title','tags','content','isPublished']),
-    ...mapMutations(['SET_CURRENT_ARTICLE'])
   },
   // 当组件创建的时候自动执行里面的请求
   created() {
@@ -52,14 +35,46 @@ export default {
         for (let article of res) {
           article.createTime = moment(article.createTime).format('YYYY年-MM月-DD日 HH-mm-ss')
           article.isChosen = true
+          // 如果查询出文章，则将第一篇文章作为正在编辑的文章
         }
         this.articleList.push(...res);
-        console.log(this.articleList)
+        if (this.articleList.length !== 0) {
+            this.SET_CURRET_ARTICLE(this.articleList[0])
+            this.activeIndex = 0
+          }
+        // console.log(this.articleList)
       })
       .catch(err => {
         console.log(err);
       });
-  }
+  },
+  methods:{
+    updateList(updateId) {
+      request({
+        method: "get",
+        url: `/articles/${updateId}`
+      })
+        .then(res => {
+          console.log(res);
+          const article = res[0]
+          article.createTime = moment(article.createTime).format('YYYY年-MM月-DD日 HH-mm-ss')
+          article.isChosen = true
+          this.articleList.unshift(article)
+          console.log(this.articleList)
+          // 如果发布新文章的话，当前被选中的文章
+          this.activeIndex ++
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    select(index){
+      this.activeIndex = index
+      // 当你选择文章的时候，当前被选中的文章扔到全局状态管理里面
+      this.SET_CURRENT_ARTICLE(this.articleList[index])
+    },
+    ...mapMutations(['SET_CURRET_ARTICLE'])
+  },
 };
 </script>
 <style lang="scss" scoped>

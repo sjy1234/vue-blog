@@ -12,6 +12,8 @@ class ArticleController {
     }
     async getOneArticle(ctx) {
         const res = await Article.getOneArticle(ctx.params.id)
+        console.log(res)
+        ctx.body = res
     }
 }
 export default new ArticleController()

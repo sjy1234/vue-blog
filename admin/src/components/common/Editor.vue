@@ -7,8 +7,8 @@
             <use xlink:href="#icon-liebiao"></use>
           </svg>
           <ul class="tags">
-            <li class="tag">
-              标签
+            <li class="tag" v-for="tag,index in tags" :key="index">
+              标签{{ tag }}
               <sup>x</sup>
             </li>
           </ul>
@@ -31,20 +31,29 @@
 // 引入编辑器
 import 'simplemde/dist/simplemde.min.css'
 import SimpleMDE from 'simplemde'
+import { mapState } from 'vuex'
   export default {
     name:'Editor',
-    mounted() {
-       this.simplemde = new SimpleMDE({
-         placeholder:'Talk to me , what are you say',
-         simplemde:false
-       });
-    },
-    data () {
+    data () {                                                                                                               
       return {
-
+        simplemde:'', // 编辑器
+      
+        tags:'', // 标签
+      
       };
     },
+    computed:{
+      ...mapState(['id','title','isPublished']),
+    },
+    mounted() {
+      // this.tags
+       this.simplemde = new SimpleMDE({
+         placeholder:'Talk to me , what are you say',
+         simplemde:false,
+         toolbarTips:false
+       });
 
+    },
   }
 
 </script>

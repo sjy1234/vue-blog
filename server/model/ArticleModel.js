@@ -8,7 +8,7 @@ class ArticleModel {
         return await query(`INSERT INTO ARTICLE SET title='新文章',tags='',createTime=NOW(),publishTime=NOW(),content=''`)
     }
     async getOneArticle(id) {
-        return await query(`SELECT * FROM ARTICLE WHERE id=${id}`)
+        return await query(`SELECT * FROM ARTICLE WHERE id='${id}'`)
     }
 }
 

@@ -52,9 +52,9 @@ export default {
       })
         .then(res => {
           // 1.首先获取到插入文章的id值
-          const addId = res.inserId;
+          const addId = res.insertId;
           //  2.调用子组件中的updateArticle方法来更新文章列表
-        //   this.$refs.articleList.updateList(addId);
+          this.$refs.articleList.updateList(addId);
         //   console.log(this.$refs.articleList);
         })
         .catch(err => {
