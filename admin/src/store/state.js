@@ -7,7 +7,7 @@ const state = {
     id:'',// 
     title:'',//
     tags:'',//
-    comment:'',// 编辑文章的内容
+    content:'',// 编辑文章的内容
     isPublished:'',//文章是否发布
     toggleDelete:false
 }

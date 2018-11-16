@@ -1,18 +1,18 @@
 <template>
     <div class="editor">
-      <input type="text" class="title" id="title">
+      <input type="text" class="title" id="title" @input="autosave" v-model="title">
       <div class="operate-bar">
         <section class="tag-container">
           <svg class="icon" aria-hidden="true">
             <use xlink:href="#icon-liebiao"></use>
           </svg>
           <ul class="tags">
-            <li class="tag" v-for="tag,index in tags" :key="index">
+            <li class="tag" v-for="(tag,index) in tags" :key="index">
               标签{{ tag }}
               <sup>x</sup>
             </li>
           </ul>
-          <input type="text" class="tag-input" id="tag-input">
+          <input type="text" class="tag-input" id="tag-input" @change="autosave">
           <span class="tag-add">+</span>
         </section>
         <section class="btn-container">
@@ -31,19 +31,19 @@
 // 引入编辑器
 import 'simplemde/dist/simplemde.min.css'
 import SimpleMDE from 'simplemde'
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
   export default {
     name:'Editor',
     data () {                                                                                                               
       return {
         simplemde:'', // 编辑器
-      
-        tags:'', // 标签
+         // 标签
       
       };
     },
     computed:{
-      ...mapState(['id','title','isPublished']),
+      ...mapState(['id','title','tags','content','isPublished']),
+      ...mapGetters(['getTags'])
     },
     mounted() {
       // this.tags
@@ -52,8 +52,26 @@ import { mapState } from 'vuex'
          simplemde:false,
          toolbarTips:false
        });
+        // 将vuex
+       this.simplemde.value(this.content)
+      //  绑定编辑器的按键事件
+        this.simplemde.codemirror.on('keyHandler',()=>this.autosave())
+        this.simplemde.codemirror.on('inputRead',()=>this.autosave())
+      //  console.log(a)
+    },
+    // 监控id值的变化，一旦发生变化，就直接发生变化
+    watch: {
+      id(newVal,oldVal) {
+        
+        this.simplemde.value(this.content)
+      }
 
     },
+    methods:{
+      autosave() {
+        // 自动保存功能
+      }
+    }
   }
 
 </script>
@@ -103,7 +121,7 @@ import { mapState } from 'vuex'
                 size: 1.6rem;
             }
             color: $special;
-            text-decoration: underline;
+            // text-decoration: underline;
             cursor: pointer;
         }
     }

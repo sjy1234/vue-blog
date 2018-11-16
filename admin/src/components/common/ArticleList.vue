@@ -10,8 +10,8 @@
 
 <script>
 import request from "@/utils/request";
-import moment from 'moment'
-import { mapState,mapMutations } from 'vuex'
+import moment from 'moment';
+import { mapState,mapMutations, mapGetters } from 'vuex';
 export default {
   name: "ArticleList",
   data() {
@@ -35,11 +35,11 @@ export default {
         for (let article of res) {
           article.createTime = moment(article.createTime).format('YYYY年-MM月-DD日 HH-mm-ss')
           article.isChosen = true
-          // 如果查询出文章，则将第一篇文章作为正在编辑的文章
         }
         this.articleList.push(...res);
+          // 如果查询出文章，则将第一篇文章作为正在编辑的文章
         if (this.articleList.length !== 0) {
-            this.SET_CURRET_ARTICLE(this.articleList[0])
+            this.SET_CURRENT_ARTICLE(this.articleList[0])
             this.activeIndex = 0
           }
         // console.log(this.articleList)
@@ -73,7 +73,7 @@ export default {
       // 当你选择文章的时候，当前被选中的文章扔到全局状态管理里面
       this.SET_CURRENT_ARTICLE(this.articleList[index])
     },
-    ...mapMutations(['SET_CURRET_ARTICLE'])
+    ...mapMutations(['SET_CURRENT_ARTICLE'])
   },
 };
 </script>
