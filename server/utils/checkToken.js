@@ -23,6 +23,7 @@ export default async function ( ctx, next )  {
         message:'token已过期，请重新登录'
       }
     }else {
+      console.log(err)
       ctx.throw(500) // 直接抛出500错误
       // 抛给前端request拦截器
     }

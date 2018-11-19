@@ -13,7 +13,16 @@ const mutations = {
         state.content = content
         state.isPublished = isPublished
     },
-
+    // 设置title改变的方法
+    SET_TITLE:(state,title)=>{
+        state.title = title
+    },
+    SET_TAGS:(state,tags)=>{
+        state.tags = tags
+    },
+    SET_CURRENT:(state,content)=>{
+        state.content = content
+    },
     SET_DELETE_ARTICLE: (state) => {
         state.toggleDelete = !state.toggleDelete
     },

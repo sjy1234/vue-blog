@@ -26,4 +26,6 @@ router.get('/articles',checkToken,ArticleController.getArticles)
 router.post('/articles/add',checkToken,ArticleController.addArticle)
 // 查询一下最新发布的详细信息
 router.get('/articles/:id',checkToken,ArticleController.getOneArticle)
+// 
+router.post('/articles/update/:id',checkToken,ArticleController.updatedArticle)
 export default router

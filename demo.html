@@ -13,7 +13,39 @@
     <p id="demo"></p>
 </body>
 <script>
-    
+    // 工厂模式构建函数
+    var Obj = {
+        name:"宋建业",
+        age:18,
+        sex:'男'
+    }
+    var Obj2 = {
+        name:"张三",
+        age:18,
+        sex:'男'
+    }
+    var Obj3 = {
+        name:"李四",
+        age:18,
+        sex:'男'
+    }
+    console.log(Obj)
+
+
+    function f1(name,sex,age) {
+        var obj = new Object();
+        obj.name = name;
+        obj.sex = sex;
+        obj.age = age;
+        return obj
+    }
+    var a = f1('宋建业','男',18);
+    var b = f1('孙悟空','男',18);
+    var c = f1('打算','nan',99)
+    console.log(a)
+    console.log(b)
+    console.log(c)
+
 </script>
 
 </html>
