@@ -12,12 +12,12 @@
             <sup @click="deleteTag(index)">x</sup>
           </li>
         </ul>
-        <input type="text" class="tag-input" id="tag-input" v-if="inputNow" @change="autosave" @keydown.Enter="addTag">
-        <span class="tag-add" @click="addTag">+</span>
+        <input type="text" class="tag-input" id="tag-input" v-if="showTags"  @keydown.enter="addTag">
+        <span class="tag-add" v-else @click="addTag">+</span>
       </section>
       <section class="btn-container">
-        <button id="delete" class="delete">删除文章</button>
-        <button id="submit" class="not-del">发布文章</button>
+        <button id="delete" @click="deleteArticle" class="delete">删除文章</button>
+        <button id="submit" @click="publishArticle" class="not-del">发布文章</button>
       </section>
     </div>
     <p class="tips">标签查询页面只能批量更改标签，修改的文章内容会自动保存</p>
@@ -35,21 +35,23 @@
  * */
 
 import SimpleMDE from "simplemde";
-import 'simplemde/dist/simplemde.min.css';
+import "simplemde/dist/simplemde.min.css";
 import { mapState, mapGetters } from "vuex";
 // 引入debounce方法
 import debounce from "lodash.debounce";
+// 发请求 
+import request from '@/utils/request'
 
 export default {
   name: "Editor",
   data() {
     return {
       simplemde: "", //编辑器
-      inputNow:false,
+      showTags: false
     };
   },
   computed: {
-    ...mapState(["id", "tags", "content", "isPublished"]),
+    ...mapState(["id", "tags", "content", "isPublished",]),
     ...mapGetters(["getTags"]),
     //因为这个title是数据双向绑定的，因此，他可能会被改变，如果我们直接从mapstate中国读取它的话，
     //那么如果直接改变title的话，又因为他没有setter方法，就会导致无法直接改变state中的title
@@ -90,7 +92,7 @@ export default {
         // savearticle要发请求，是异步的，mutations只能放同步，但是actions可以,所以saveArticle方法要写在actions里面
         this.$store.dispatch("saveArticle", {
           id: this.id,
-          tags: this.getTags.join(','),
+          tags: this.getTags.join(","),
           title: this.title,
 
           //输入的新内容
@@ -100,22 +102,51 @@ export default {
       }
     }, 1000),
     //  删除标签deleTag
-    deleteTag (index) {
-      this.getTags.splice(index,1);
+    deleteTag(index) {
+      this.getTags.splice(index, 1);
       this.autosave();
     },
     // 添加标签
-    addTag () {
-      alert(1)
-      if (this.inputNow) {
-        const tagVal = document.getElementById('tag-input').value
-        // console.log(tagVal)
-        // console.log(1)
-        if (tagVal && this.tags.indexOf(tagVal) === -1) {
-          this.tags.push(tagVal)
-        }
+    addTag() {
+      // input 显示的时候，会执行下面代码
+      if (this.showTags) {
+        const newTag = document.querySelector("#tag-input").value;
+          this.getTags.push(newTag);
+          // 每次按下enter键
+          this.autosave();
+        // if (newTag && this.tags.indexOf(newTag) !== -1) {
+        // }
       }
-      this.inputNow = !this.inputNow
+      // 这只是一个单纯的切换功能，第一次点击加的时候显示input表单，第二次在input表单中输入内容隐藏
+      this.showTags = !this.showTags;
+    },
+    // 删除文章
+    deleteArticle() {
+      request({
+        url:`/articles/${this.id}`,
+        method:"delete",
+        data:{}
+      }).then(res=>{
+        console.log(res)
+        // 删除之后，要跟新视图，让视图中的文章也跟着一起删除
+        this.$store.commit('SET_DELETE_ARTICLE')
+      }).catch(err=>{
+        console.log(err)
+      })
+    },
+    // 发布文章
+    publishArticle() {
+      if (!this.isPublished) {
+        request({
+          url:`/articles/publish/${this.id}`,
+          method:"put",
+          data:{}
+        }).then(res=>{
+          console.log(res)
+        }).catch(err=>{
+          console.log(err)
+        })
+      }
     }
   }
 };
@@ -180,5 +211,8 @@ export default {
 .content {
   font-size: 2rem;
   font-weight: bolder;
+}
+/deep/ .CodeMirror .cm-spell-error:not(.cm-url):not(.cm-comment):not(.cm-tag):not(.cm-word){
+  background-color: #ffffff;
 }
 </style>

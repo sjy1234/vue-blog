@@ -6,7 +6,7 @@ const state = {
     username:'',
     id:'',// 
     title:'',//
-    tags:'',//
+    tags:'',//  编辑文章标签列表
     content:'',// 编辑文章的内容
     isPublished:'',//文章是否发布
     toggleDelete:false
