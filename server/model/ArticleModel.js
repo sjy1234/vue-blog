@@ -19,6 +19,18 @@ class ArticleModel {
     async publishArticle(id) {
         return await query(escape`UPDATE ARTICLE SET publishTime=NOW(),isPublished=1 WHERE id=${id}`)
     }
+    async getBookList() {
+        return await query(`SELECT *FROM RD_LIST`)
+    }
+    async deleteBook(id) {
+        return await query(escape`DELETE FROM RD_LIST WHERE id=${id}`)
+    }
+    async addBook({name,author,score}) {
+        return await query(escape`INSERT INTO RD_LIST SET name=${name},author=${author},score=${score}`)
+    }
+    async editBook(id,{name,author,score}) {
+        return await query(escape`UPDATE RD_LIST SET name=${name},author=${author},score=${score} WHERE id=${id}`)
+    }
     
 }
 

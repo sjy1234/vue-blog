@@ -36,6 +36,14 @@ router.delete('/articles/:id',checkToken,ArticleController.deleteArticle)
 router.put('/articles/publish/:id',checkToken,ArticleController.publishArticle)
 // 操作个人简介
 router.post('/briefs',checkToken,AboutController.getBrief)
-
+// 提交关于我的修改
 router.post('/about',checkToken,AboutController.updateAbout)
+// 获取书籍列表
+router.get('/books',checkToken,ArticleController.getBookList)
+// 添加书籍功能
+router.post('/books',checkToken,ArticleController.addBook)
+// 删除书籍列表
+router.delete('/books/:id',checkToken,ArticleController.deleteBook)
+// 编辑书籍列表
+router.put('/books/:id',checkToken,ArticleController.editBook)
 export default router

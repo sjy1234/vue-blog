@@ -111,9 +111,12 @@ export default {
       // input 显示的时候，会执行下面代码
       if (this.showTags) {
         const newTag = document.querySelector("#tag-input").value;
-          this.getTags.push(newTag);
+         if (newTag && this.getTags.indexOf(newTag) === -1) {
+             this.getTags.push(newTag);
           // 每次按下enter键
           this.autosave();
+         }
+        
         // if (newTag && this.tags.indexOf(newTag) !== -1) {
         // }
       }
@@ -142,7 +145,8 @@ export default {
           method:"put",
           data:{}
         }).then(res=>{
-          console.log(res)
+          this.$store.commit('SET_PUBLISH_STATE')
+          // console.log(res)
         }).catch(err=>{
           console.log(err)
         })

@@ -30,14 +30,23 @@ class ArticleController {
         const res = await Article.publishArticle(id)
         ctx.body = res
     }
-    // async getBrief(ctx) {
-    //     ctx.body = await Brief.getBrief()
-    // }
-    // async updateAbout(ctx) {
-    //     const id = ctx.params.id
-    //     const content = await Brief.updateAbout(id,content)
-    //     cxt.body = res
-    // }
+    async getBookList(ctx) {
+        ctx.body = await Article.getBookList()
+    }
+    async deleteBook(ctx) {
+        const id = ctx.params.id
+        ctx.body = await Article.deleteBook(id)
+    }
+    async addBook(ctx) {
+        const book = ctx.request.body
+        ctx.body = await Article.addBook(book)
+    }
+    async editBook(ctx) {
+        const id = ctx.params.id
+        const book = ctx.request.body
+        ctx.body = await Article.editBook(id,book)
+    }
+
 }
 
 export default new ArticleController()

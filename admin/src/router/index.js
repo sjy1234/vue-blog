@@ -7,6 +7,7 @@ import Login from '@/components/Login'
 // 引入主页面组件
 import List from '@/components/List'
 import About from '@/components/About'
+import ReadingList from '@/components/ReadingList'
 export default new Router({
   routes: [
     { 
@@ -20,6 +21,9 @@ export default new Router({
     },
     {
       path:'/about',component:About
+    },
+    {
+      path:'/ReadingList',component:ReadingList
     }
   ]
 })
