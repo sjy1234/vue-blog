@@ -133,7 +133,17 @@ export default {
         this.isDiaShow = false;
       }
     },
-    chooseScore({ evt, width }) {},
+    chooseScore({ evt, width }) {
+      const offsetX = evt.offsetX;
+      // toFixed返回的是字符串...
+      let score = (
+        parseInt(evt.target.dataset.index, 10) + parseFloat(offsetX / width)
+      ).toFixed(2);
+      if (score > 4.9) {
+        score = 5;
+      }
+      this.score = score;
+    },
     confirmChange() {
       // 添加书籍逻辑
       if (!this.isEditing) {
@@ -163,29 +173,36 @@ export default {
         } else {
           alert("输入信息不完整");
         }
-      }else{
+      } else {
         //   编辑书籍的逻辑
-        const name = document.getElementById('name').value;
-        const author = document.getElementById('author').value;
+        const name = document.getElementById("name").value;
+        const author = document.getElementById("author").value;
         const score = this.score;
-        const id = this.editingId
+        const id = this.editingId;
         if (name && author) {
-            request({
-                url:`/books/${id}`,
-                method:'put',
-                data:{
-                    name,
-                    author,
-                    score
-                }
-            }).then(res=>{
-                this.books.splice(this.editingIndex,1,{id,name,author,score});
-                this.isDiaShow = false
-            }).catch(err=>{
-                console.log(err)
+          request({
+            url: `/books/${id}`,
+            method: "put",
+            data: {
+              name,
+              author,
+              score
+            }
+          })
+            .then(res => {
+              this.books.splice(this.editingIndex, 1, {
+                id,
+                name,
+                author,
+                score
+              });
+              this.isDiaShow = false;
             })
-        }else{
-            alert('输入信息不完整');
+            .catch(err => {
+              console.log(err);
+            });
+        } else {
+          alert("输入信息不完整");
         }
       }
     }

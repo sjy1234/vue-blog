@@ -43,5 +43,35 @@ export default {
   }
 };
 </script>
-<style lang='' scoped>
+<style lang="scss" scoped>
+@import '../../assets/style/_variable.scss';
+.star {
+    font-size: 1rem;
+    padding: 0;
+}
+
+.star-item {
+    display: inline-block;
+    background-repeat: no-repeat;
+    width: 2em;
+    height: 2em;
+    margin-right: 0.5em;
+    background-size: 100%;
+}
+
+.star-item:last-of-type {
+    margin-right: 0;
+}
+
+.star-item.on {
+    background-image: url(../../assets/image/star-on.png);
+}
+
+.star-item.half {
+    background-image: url(../../assets/image/star-half.png);
+}
+
+.star-item.off {
+    background-image: url(../../assets/image/star-off.png);
+}
 </style>
