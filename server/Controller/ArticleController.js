@@ -1,5 +1,5 @@
 import Article from '../model/ArticleModel'
-
+// import Brief from '../model/Briefs'
 class ArticleController {
     async getArticles(ctx){
         ctx.body = await Article.getAllArticle()
@@ -30,5 +30,14 @@ class ArticleController {
         const res = await Article.publishArticle(id)
         ctx.body = res
     }
+    // async getBrief(ctx) {
+    //     ctx.body = await Brief.getBrief()
+    // }
+    // async updateAbout(ctx) {
+    //     const id = ctx.params.id
+    //     const content = await Brief.updateAbout(id,content)
+    //     cxt.body = res
+    // }
 }
+
 export default new ArticleController()

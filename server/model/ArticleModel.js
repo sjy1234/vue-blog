@@ -19,6 +19,8 @@ class ArticleModel {
     async publishArticle(id) {
         return await query(escape`UPDATE ARTICLE SET publishTime=NOW(),isPublished=1 WHERE id=${id}`)
     }
+    
 }
+
 
 export default new ArticleModel()

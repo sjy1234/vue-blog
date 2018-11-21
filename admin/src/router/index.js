@@ -6,6 +6,7 @@ Vue.use(Router)
 import Login from '@/components/Login'
 // 引入主页面组件
 import List from '@/components/List'
+import About from '@/components/About'
 export default new Router({
   routes: [
     { 
@@ -16,6 +17,9 @@ export default new Router({
     },
     {
       path:'*',redirect:'/login'
+    },
+    {
+      path:'/about',component:About
     }
   ]
 })

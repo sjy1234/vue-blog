@@ -7,7 +7,7 @@ import Vue from 'vue'
 // 创建axios实例
 const service = axios.create({
   // baseURL: process.env.BASE_API, // api 的 base_url
-  baseURL:"http://localhost:3000/api",
+  baseURL:"http://localhost:3333/api",
   timeout: 5000 // 请求超时时间
 })
 

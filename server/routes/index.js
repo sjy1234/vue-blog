@@ -5,6 +5,8 @@ import checkToken from '../utils/checkToken'
 import UserController from '../Controller/UserController'
 // 引入文章相关的控制器
 import ArticleController from '../Controller/ArticleController'
+// 关于我
+import AboutController from '../Controller/briefs'
 const router = new Router()
 // 前端所有请求 发过来的时候都是这样的http://localhost:3000/api/...
 router.get('/',async ctx=>{
@@ -32,4 +34,8 @@ router.post('/articles/update/:id',checkToken,ArticleController.updatedArticle)
 router.delete('/articles/:id',checkToken,ArticleController.deleteArticle)
 // 发布一篇文章
 router.put('/articles/publish/:id',checkToken,ArticleController.publishArticle)
+// 操作个人简介
+router.post('/briefs',checkToken,AboutController.getBrief)
+
+router.post('/about',checkToken,AboutController.updateAbout)
 export default router
