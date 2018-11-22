@@ -98,6 +98,7 @@ export default {
       this.isDiaShow = true;
       this.isEditing = false;
       this.score = 0;
+      // 输入框清空
       document.getElementById("name").value = "";
       document.getElementById("author").value = "";
     },

@@ -8,6 +8,7 @@ import Login from '@/components/Login'
 import List from '@/components/List'
 import About from '@/components/About'
 import ReadingList from '@/components/ReadingList'
+import Tag from '@/components/Tag'
 export default new Router({
   routes: [
     { 
@@ -24,6 +25,9 @@ export default new Router({
     },
     {
       path:'/ReadingList',component:ReadingList
+    },
+    {
+      path:'/tag',component:Tag
     }
   ]
 })

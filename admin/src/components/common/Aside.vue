@@ -6,7 +6,7 @@
             </svg>
             <p class="descript">列表</p>
         </router-link>
-        <router-link to="/tags" class="link">
+        <router-link to="/tag" class="link">
             <svg class="icon" aria-hidden="true">
                 <use xlink:href="#icon-tag"></use>
             </svg>
